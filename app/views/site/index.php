@@ -7,9 +7,7 @@ use yii\easyii\modules\news\api\News;
 use yii\easyii\modules\page\api\Page;
 use yii\easyii\modules\text\api\Text;
 use yii\helpers\Html;
-
 $page = Page::get('page-index');
-
 $this->title = $page->seo('title', $page->model->title);
 ?>
 

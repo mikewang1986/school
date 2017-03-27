@@ -4,29 +4,9 @@ use Yii;
 //定义的共通
 use app\apiservices\EApiViewService;
 use app\apiservices\ErrorList;
-use app\apiservices\ApiViewPatientLocalData;
-use app\models\UserManager;
-use app\models\User;
-use app\models\AuthManager;
-use app\apiservices\ApiViewBookingListV5;
 use yii\helpers\BaseJson;
 use app\apiservices\ApiViewSuccessCase;
-use app\apiservices\ApiViewExpertsShow;
-use app\apiservices\v12\ApiViewEvaluationListV12;
-use app\models\OperationManager;
-use app\models\FeedbackManager;
-use app\models\PaymentManager;
-use app\models\booking\BookingServiceConfig;
-use app\models\StatManager;
 use app\components\ErrorCode;
-use app\models\AppManager;
-use app\apiservices\api\ApiViewDiseaseCategory;
-use app\apiservices\api\ApiViewSubCategory;
-use app\models\BookingManager;
-use app\apiservices\api\ApiViewTopHospital;
-//加入医生端接口
-use app\apiservices\api\ApiViewSpecailTopic;
-use app\apiservices\api\ApiViewIndex;
 class ApiController extends \yii\web\Controller
 {
     // Members
