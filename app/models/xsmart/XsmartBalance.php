@@ -1,9 +1,7 @@
 <?php
-
 namespace app\models\xsmart;
 use app\models\EActiveRecord;
 use Yii;
-
 /**
  * This is the model class for table "xsmart_balance".
  *
@@ -54,20 +52,20 @@ class XsmartBalance extends EActiveRecord
     {
         return [
             'id' => 'ID',
-            'oid' => 'Oid',
-            'uid' => 'Uid',
-            'price' => 'Price',
-            'money' => 'Money',
-            'addtime' => 'Addtime',
-            'status' => 'Status',
-            'fintime' => 'Fintime',
-            'finished' => 'Finished',
-            'paytype' => 'Paytype',
-            'user_ip' => 'User Ip',
-            'pay_source' => 'Pay Source',
+            'oid' => '订单号',
+            'uid' => '充值人',
+            'price' => '充值金额',
+            'money' => '充值学币',
+            'addtime' => '充值时间',
+            'status' => '充值结果',
+            'fintime' => '成功时间',
+            'finished' => '充值完成',
+            'paytype' => '支付方式',
+            'user_ip' => 'ip',
+            'pay_source' => '充值来源',
             'coid' => 'Coid',
             'pay_order_number' => 'Pay Order Number',
-            'admin_id' => 'Admin ID',
+            'admin_id' => '系统充值人id',
         ];
     }
 }

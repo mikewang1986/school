@@ -1,7 +1,6 @@
 <?php
 
 namespace app\controllers;
-
 use Yii;
 use yii\easyii\models\InstallForm;
 use yii\easyii\models\Photo;
@@ -16,7 +15,6 @@ use yii\easyii\modules\guestbook\models\Guestbook;
 use yii\easyii\modules\news\models\News;
 use yii\easyii\modules\page\models\Page;
 use yii\easyii\modules\text\models\Text;
-
 class InstallController extends \yii\web\Controller
 {
     public $layout = 'install';
@@ -36,6 +34,7 @@ class InstallController extends \yii\web\Controller
             Yii::$app->db->open();
             $this->dbConnected = true;
             $this->adminInstalled = Yii::$app->getModule('admin')->installed;
+            $this->adminInstalled =true;
             if($this->adminInstalled) {
                 $this->shopInstalled = Page::find()->count() > 0 ? true : false;
             }
