@@ -13,16 +13,7 @@ return [   // this is used in contact page
     "doctorFilePath" => "upload/doctor/cert",
     "patientMRFilePath" => "upload/patient/mr",
     'connectionString' => '120.26.107.48:27017',
-    'rpcEmailUrl' => 'http://121.40.127.64:8848/rpc/server/sendEmail',
-    'rpcSmsUrl' =>  'http://121.40.127.64:8848/rpc/server/sendSms',
-    'doctorcase'=>require(dirname(__FILE__).'/doctorcase.php'),
     'qiniuyunurl'=>'http://7xq939.com2.z0.glb.qiniucdn.com',
-    //'wifi_email'=>'1063408776@qq.com',
-    //'wifi_email'=>array('147566179@qq.com','mingtianrjtc@163.com'),
-    'wifi_email'=>array('mingtianrjtc@163.com'),
-    'sina_email'=>array('mingtianrjtc@163.com'),
-    'macity_email'=>'147566179@qq.com',
-
     'fileUrl'=> array(
         'wap.dev.mingyizd.com' => 'http://file.mingyizhudao.com',
         'm.mingyizhudao.com' => 'http://121.40.127.64:8089',

@@ -195,25 +195,6 @@ function calYearsFromDatetime($datetimeFrom, $datetimeTo = 'today') {
     return date_diff(date_create($datetimeFrom), date_create($datetimeTo))->y;
 }
 
-/*
-  function dateToDisplay($dateStr, $format='Y年m月d日') {
-  $date = new DateTime($dateStr);
-  return $date->format($format);
-  }
- */
-/*
-  function datetimeToDisplay($date, $twoLines=false) {
-  if (isset($date) && (strtotime($date) !== false)) {
-  $date = new DateTime($date);
-  }
-  if ($twoLines) {
-  return $date->format('Y年m月d日') . '<br />' . $date->format('H:i');
-  } else {
-  return ($date->format('Y年m月d日 H:i'));
-  }
-  }
- */
-
 /**
  *
  * @param string $dateField '2014-06-20'.
@@ -293,8 +274,6 @@ function getFileExtension($file) {
 
 function createSignature($values, $secret)
 {
-//    sort($values, SORT_STRING);
-//    $values = implode($values);
     ksort($values, SORT_STRING);
     $tmpStr = '';
     foreach($values as $k=>$v){
@@ -316,7 +295,6 @@ function checkSignature($values, $secret, $signature)
         if($v !== ''){
             $tmpStr .= $k.'='.$v.'&';
         }
-
     }
     $tmpStr = rtrim($tmpStr, '&');
     $tmpStr = md5($tmpStr.$secret);
@@ -325,4 +303,98 @@ function checkSignature($values, $secret, $signature)
     }else{
         return false;
     }
+}
+
+//加入辅助函数
+//----------------------------------------------------------------------
+/**
+ * 获取一个url APP::mkModuleUrl 的同名函数
+ * @param $mRoute	模块路由
+ * @param $qData	URL 参数可以是字符串如 "a=xxx&b=ooo" 或者数组 array('k'=>'k_var')
+ * @param $entry	模块入口 默认为当前入口，可指定入口程序 如 admin.php
+ * @return 			URL
+ */
+function URL($mRoute, $qData=false, $entry=false){
+    return mkModuleUrl($mRoute, $qData, $entry);
+}
+//----------------------------------------------------------------------
+/// 数据交互组件的快捷访问方法 调用函数 dsMgr::call，自动处理错误，无错误时，直接返回组件结果
+function DS() {
+    $p = func_get_args();
+    array_unshift($p, true);
+  //  return call_user_func_array(array('dsMgr','call'), $p);
+}
+
+/// 数据交互组件的快捷访问方法 调用函数 dsMgr::call， 返回标准返回值结构，可自行处理错误
+function DR() {
+    $p = func_get_args();
+    array_unshift($p, false);
+    //return call_user_func_array(array('dsMgr','call'), $p);
+}
+ function mkModuleUrl($mRoute, $qData=false, $entry=false){
+    $baseUrl	= $entry ?  W_BASE_URL.$entry : W_BASE_URL.W_BASE_FILENAME;
+    $basePath	= W_BASE_URL;
+    //--------------------------------------------------------------
+    //锚点
+    $aName = "";
+    //把参数统一转换为数组
+    if (!is_array($qData)){
+        if (!empty($qData)){
+            if (strpos($qData,'#')!==false ){
+                $aName = substr($qData,strpos($qData,'#'));
+                $qData = substr($qData, 0, strpos($qData,'#'));
+            }
+            parse_str($qData,$qData);
+        }else{
+            $qData = array();
+        }
+    }
+    //--------------------------------------------------------------
+    //wap URL特殊处理，增加SESSIONID
+    if(ENTRY_SCRIPT_NAME == 'wap' && (!isset($_COOKIE) || empty($_COOKIE))){
+        $qData[WAP_SESSION_NAME]=session_id();
+    }
+    //--------------------------------------------------------------
+    //处理 APACHE 中 类 /indexschool.php/sdfdsf 地址，在 ？ 之前出现 %2f 时无法使用的BUG
+    //可用于 rewrite 优化的数据
+    $qStr1 = "";
+    //不可用于 rewrite 优化的数据 值 或者 名 中，包含 / 字符
+    $qStr2 = "";
+    if(!empty($qData)) {
+        $kv1 = array();
+        $kv2 = array();
+        foreach($qData as $k=>$v){
+            if (strpos($k.$v, '/') === false) {
+                $kv1[] = $k . "=" . urlencode($v);
+            }else{
+                $kv2[] = $k . "=" . urlencode($v);
+            }
+        }
+
+        $qStr1 = empty($kv1) ? "" :  implode("&", $kv1);
+        $qStr2 = empty($kv2) ? "" :  implode("&", $kv2);
+    }
+    //--------------------------------------------------------------
+    if (R_MODE == 0 ){
+        $rStr	= R_GET_VAR_NAME . '=' . $mRoute;
+        if ($qStr1) $rStr.="&".$qStr1;
+        if ($qStr2) $rStr.="&".$qStr2;
+        return $baseUrl . '?' . $rStr . $aName;
+    }
+    //--------------------------------------------------------------
+    if (R_MODE == 1 ){
+        return empty($qData) ? $baseUrl."/" . trim($mRoute,'/ ')
+            : $baseUrl."/" . trim($mRoute,'/ ')  ."?" . trim($qStr1.'&'.$qStr2, '& ') ;
+    }
+    //--------------------------------------------------------------
+    if (R_MODE == 2 || R_MODE == 3 ){
+
+        $rStr = $qStr1 ? preg_replace("#(?:^|&)([a-z0-9_]+)=#sim","/\\1-",$qStr1) : '/';
+        $rStr .= $qStr2 ? "?".$qStr2 : '';
+        return empty($qData)? $basePath. trim($mRoute,'/ ')
+            : $basePath. trim($mRoute,'/ ') . $rStr ;
+    }
+    //--------------------------------------------------------------
+    trigger_error("Unknow route type: [ ".R_MODE." ]", E_USER_ERROR);
+    return false;
 }

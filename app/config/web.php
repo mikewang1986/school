@@ -15,7 +15,6 @@ $config = [
        '@common_classes' => $webroot."/components",
    ],
     'components' => [
-    
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'test',
@@ -36,8 +35,7 @@ $config = [
                     'host'=>'120.26.107.48',
                     'port'=>11211,
                     'weight'=>60,
-                   // 'host' => 'localhost',
-                 //   'port' => 11211,
+
                 ]
             ],
         ],
