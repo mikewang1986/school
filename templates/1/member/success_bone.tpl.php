@@ -24,7 +24,7 @@
 
 <div class="shopping_top_wai_right">
 您好，906485326@qq.com 欢迎来到学啊教育
-<span><a href="/index.php?m=Ulogin.tuichu">[退出]</a> <a href="index.php?m=member.xmember">[会员中心]</a></span>
+<span><a href="/indexschool.php?m=Ulogin.tuichu">[退出]</a> <a href="index.php?m=member.xmember">[会员中心]</a></span>
 <a href="index.php?m=member.xmember&tid=6">账户中心</a>
 </div>
 <div class="clear"></div>
